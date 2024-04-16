@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
     double *restrict M2temp = (double *)calloc(M2SIZE, sizeof(double));
     gettimeofday(&T1, NULL); // запомнить текущее время T1
 
-    for (i = 0; i < 100; i++)
+    for (i = 0; i < 100; i++)     
     { // 100 экспериментов
       // инициализировать начальное значение ГСЧ
         seed = 50;
