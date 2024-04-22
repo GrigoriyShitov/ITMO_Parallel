@@ -1,0 +1,13 @@
+что сипользуется в schedule default 
+
+With most OpenMP runtimes, the default scheduling when no schedule clause 
+is present is static with chunk size equal to #iterations / #threads 
+(the handling of the case where #threads does not divide #iterations 
+is implementation-specific, but usually the remainder of the iterations is spread over the first #iterations % #threads 
+threads).
+
+сделать выводы о том когда начинают влиять побочные расходы (хуй знает заыбл как называебтсян)
+
+
+
+попробовать с разными флагами компиляции.
