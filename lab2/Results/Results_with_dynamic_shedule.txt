@@ -1,0 +1,16 @@
+N=1500000. Shedule:dynamic, Chunksize: 1 Number of threads:4
+18042
+N=1500000. Shedule:dynamic, Chunksize: 1 Number of threads:1
+24132
+N=1500000. Shedule:dynamic, Chunksize: 2 Number of threads:4
+10573
+N=1500000. Shedule:dynamic, Chunksize: 2 Number of threads:1
+16214
+N=1500000. Shedule:dynamic, Chunksize: 4 Number of threads:4
+7881
+N=1500000. Shedule:dynamic, Chunksize: 4 Number of threads:1
+12650
+N=1500000. Shedule:dynamic, Chunksize: 8 Number of threads:4
+6306
+N=1500000. Shedule:dynamic, Chunksize: 8 Number of threads:1
+10729

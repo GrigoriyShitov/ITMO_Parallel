@@ -1,0 +1,16 @@
+N=1500000. Shedule:guided, Chunksize: 1 Number of threads:4
+4759
+N=1500000. Shedule:guided, Chunksize: 1 Number of threads:1
+8917
+N=1500000. Shedule:guided, Chunksize: 2 Number of threads:4
+4529
+N=1500000. Shedule:guided, Chunksize: 2 Number of threads:1
+8831
+N=1500000. Shedule:guided, Chunksize: 4 Number of threads:4
+4600
+N=1500000. Shedule:guided, Chunksize: 4 Number of threads:1
+8924
+N=1500000. Shedule:guided, Chunksize: 8 Number of threads:4
+4590
+N=1500000. Shedule:guided, Chunksize: 8 Number of threads:1
+8844

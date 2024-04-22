@@ -1,43 +1,24 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <sys/time.h>
+#include <string.h>
 
 int main(int argc, char *argv[])
 {
 
     FILE *file;
-    printf("%d", argc);
-    char* name = argv[0];
-    
-    printf("%s",name);
-    //file = fopen(argv[1], "a");
+    char *name = argv[1];
+    int Nsize = atoi(argv[2]);
+    char *Schedule = argv[3];
+    int chunkSize = atoi(argv[4]);
+    int threadSize = atoi(argv[5]);
 
-    printf("%s",name);
-    //fprintf(file,"open successfuly");
-    /*switch (atoi(argv[0]))
-    {
-    case 0:
-        file = fopen("Results_without_shedule.txt", "a");
-        break;
-    case 1:
-        file = fopen("Results_shedule_auto.txt", "a");
-        break;
-    case 2:
-        file = fopen("Results_shedule_dynamic.txt", "a");
-        break;
-    case 3:
-        file = fopen("Results_shedule_guided.txt", "a");
-        break;
-    case 4:
-        file = fopen("Results_shedule_static.txt", "a");
-        break;
-    default:
-        break;
-    }*/
+    printf("Writing test to %s with N=%d. Shedule:%s, Chunksize:%d Number of threads:%d\n", name, Nsize, Schedule, chunkSize, threadSize);
+    file = fopen(name, "a");
+    fprintf(file, "N=%d. Shedule:%s, Chunksize: %d Number of threads:%d\n", Nsize, Schedule, chunkSize, threadSize);
+    int chunksize = atoi(argv[1]);
 
-    //int chunksize = atoi(argv[1]);
-    
-
-
-    //fclose(file);
+    fclose(file);
 }
 
 /*

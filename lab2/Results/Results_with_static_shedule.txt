@@ -1,0 +1,16 @@
+N=1500000. Shedule:static, Chunksize: 1 Number of threads:4
+5618
+N=1500000. Shedule:static, Chunksize: 1 Number of threads:1
+9843
+N=1500000. Shedule:static, Chunksize: 2 Number of threads:4
+5177
+N=1500000. Shedule:static, Chunksize: 2 Number of threads:1
+9419
+N=1500000. Shedule:static, Chunksize: 4 Number of threads:4
+5266
+N=1500000. Shedule:static, Chunksize: 4 Number of threads:1
+9234
+N=1500000. Shedule:static, Chunksize: 8 Number of threads:4
+5156
+N=1500000. Shedule:static, Chunksize: 1 Number of threads:1
+9100

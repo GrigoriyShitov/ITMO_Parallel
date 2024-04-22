@@ -23,6 +23,7 @@ int main(int argc, char *argv[])
     double *restrict M1 = (double *)calloc(M1SIZE, sizeof(double));
     double *restrict M2 = (double *)calloc(M2SIZE, sizeof(double));
     double *restrict M2temp = (double *)calloc(M2SIZE, sizeof(double));
+    FILE *resultOfTest = fopen("Results/Results_with_guided_shedule.txt", "a");
 
     gettimeofday(&T1, NULL); // запомнить текущее время T1
     // #pragma omp parallel for default(none) private(i,seed,j, sum) shared(N) num_threads(threadCount)
@@ -41,7 +42,7 @@ int main(int argc, char *argv[])
         }
 
 // Решить поставленную задачу, заполнить массив с результатами
-#pragma omp parallel for default(none) private(j) shared(M1, N) schedule(guided, chunkSize) num_threads(threadCount)
+#pragma omp parallel for default(none) private(j) shared(M1, N, chunkSize) schedule(guided, chunkSize) num_threads(threadCount)
         for (j = 0; j < M1SIZE; j++)
         {
             M1[j] = 1.0 / tanh(sqrt(M1[j]));
@@ -49,14 +50,14 @@ int main(int argc, char *argv[])
 
         // copy m2 array
         double *M2temp = (double *)calloc(M2SIZE, sizeof(double));
-#pragma omp parallel for default(none) private(j) shared(M2, M2temp, N) schedule(guided, chunkSize) num_threads(threadCount)
+#pragma omp parallel for default(none) private(j) shared(M2, M2temp, N, chunkSize) schedule(guided, chunkSize) num_threads(threadCount)
         for (j = 0; j < M2SIZE; j++)
         {
             M2temp[j] = M2[j];
         }
 
 // new value in M2mak
-#pragma omp parallel for default(none) private(j) shared(M2, M2temp, N) schedule(guided, chunkSize) num_threads(threadCount)
+#pragma omp parallel for default(none) private(j) shared(M2, M2temp, N, chunkSize) schedule(guided, chunkSize) num_threads(threadCount)
         for (j = 1; j < M2SIZE; j++)
         {
             M2[j] += M2temp[j - 1];
@@ -64,7 +65,7 @@ int main(int argc, char *argv[])
         }
 
 // Merge
-#pragma omp parallel for default(none) private(j) shared(M2, M1, N) schedule(guided, chunkSize) num_threads(threadCount)
+#pragma omp parallel for default(none) private(j) shared(M2, M1, N, chunkSize) schedule(guided, chunkSize) num_threads(threadCount)
         for (j = 0; j < M2SIZE; j++)
         {
             M2[j] = M1[j] / M2[j];
@@ -75,7 +76,7 @@ int main(int argc, char *argv[])
 
         // REDUCE
         double min = 10 * 360 + 1;
-#pragma omp parallel for default(none) private(j) shared(M2, min, N) schedule(guided, chunkSize) num_threads(threadCount)
+#pragma omp parallel for default(none) reduction(min : min) private(j) shared(M2, N, chunkSize) schedule(guided, chunkSize) num_threads(threadCount)
         for (j = 0; j < M2SIZE; j++)
         {
             if (M2[j] < min)
@@ -84,7 +85,7 @@ int main(int argc, char *argv[])
             }
         }
 
-#pragma omp parallel for default(none) private(j) shared(M2, min, sum, N) schedule(guided, chunkSize) num_threads(threadCount)
+#pragma omp parallel for default(none) reduction(+ : sum) private(j) shared(M2, min, N, chunkSize) schedule(guided, chunkSize) num_threads(threadCount)
         for (j = 0; j < M2SIZE; j++)
         {
             if ((int)(M2[j] / min) % 2 == 0)
@@ -101,7 +102,8 @@ int main(int argc, char *argv[])
     delta_ms = (T2.tv_sec - T1.tv_sec) * 1000 +
                (T2.tv_usec - T1.tv_usec) / 1000;
     printf("\nN=%d. Milliseconds passed: %ld\n", N, delta_ms);
-
+    fprintf(resultOfTest, "%ld\n", delta_ms);
+    fclose(resultOfTest);
     return 0;
 }
 

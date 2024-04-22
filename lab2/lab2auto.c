@@ -6,7 +6,7 @@
 
 #define M1SIZE (N)
 #define M2SIZE (N / 2)
-
+#define MAXNUM 10*360+1
 void gnomeSort(double *array, int size);
 
 int main(int argc, char *argv[])
@@ -21,10 +21,12 @@ int main(int argc, char *argv[])
     double *restrict M1 = (double *)calloc(M1SIZE, sizeof(double));
     double *restrict M2 = (double *)calloc(M2SIZE, sizeof(double));
     double *restrict M2temp = (double *)calloc(M2SIZE, sizeof(double));
-
+    FILE *resultOfTest = fopen("Results/Results_with_auto_shedule.txt", "a");
+    double min = MAXNUM;
     gettimeofday(&T1, NULL); // запомнить текущее время T1
     for (i = 0; i < 100; i++)
     { // 100 экспериментов
+        min= MAXNUM;
         seed = i;
         srand(seed); // инициализировать начальное значение ГСЧ
         // Заполнить массив исходных данных размером N
@@ -69,8 +71,8 @@ int main(int argc, char *argv[])
         // gnomeSort(M2, M2SIZE);
 
         // REDUCE
-        double min = 10 * 360 + 1;
-#pragma omp parallel for default(none) private(j) shared(M2, min, N) schedule(auto) num_threads(threadCount)
+        
+#pragma omp parallel for default(none) reduction(min:min) private(j) shared(M2,N) schedule(auto) num_threads(threadCount)
         for (j = 0; j < M2SIZE; j++)
         {
             if (M2[j] < min)
@@ -79,7 +81,7 @@ int main(int argc, char *argv[])
             }
         }
 
-#pragma omp parallel for default(none) private(j) shared(M2, min, sum, N) schedule(auto) num_threads(threadCount)
+#pragma omp parallel for default(none) reduction(+:sum) private(j) shared(M2, min, N) schedule(auto) num_threads(threadCount)
         for (j = 0; j < M2SIZE; j++)
         {
             if ((int)(M2[j] / min) % 2 == 0)
@@ -96,7 +98,8 @@ int main(int argc, char *argv[])
     delta_ms = (T2.tv_sec - T1.tv_sec) * 1000 +
                (T2.tv_usec - T1.tv_usec) / 1000;
     printf("\nN=%d. Milliseconds passed: %ld\n", N, delta_ms);
-
+    fprintf(resultOfTest, "%ld\n",delta_ms);
+    fclose(resultOfTest);
     return 0;
 }
 
