@@ -53,3 +53,7 @@ clean:
 	rm Results/*
 	rm $(BuildDir)/*
 
+parallelBenefit:
+	$(CC) lab2.c -O3 -o $(BuildDir)/$(DEFAULT.EXE) -lm -fopenmp
+	$(CC) lab2.c -O3 -o $(BuildDir)/$(DEFAULT.EXE)_without_parallel -lm
+	./$(TESTS)/testForParallelBenefit.sh
