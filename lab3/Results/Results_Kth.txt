@@ -23,4 +23,19 @@ N:
 10725
 12150
 13575
-15000
+15000N=1500. Shedule:guided, Chunksize: 4 Number of threads:4
+104
+443
+169
+N=1500. Shedule:guided, Chunksize: 4 Number of threads:4
+118
+214
+159
+243
+292
+416
+515
+654
+808
+1048
+1183

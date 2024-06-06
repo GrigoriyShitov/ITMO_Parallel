@@ -10,7 +10,18 @@ delta=$(($((N - Nx))/10))
 
 step=$((Nx))
 echo "Test lab3 shedule"
+./obj/generalInfo Results/Results.txt $((N1)) guided 2 4
+for i in {1..11}
+do 
+    
+    echo $step
+    ./obj/lab3 $step 2 4
+    #echo $i
+    step=$((step + delta))
+done
+
 ./obj/generalInfo Results/Results.txt $((N1)) guided 4 4
+step=$((Nx))
 for i in {1..11}
 do 
     
@@ -19,6 +30,18 @@ do
     #echo $i
     step=$((step + delta))
 done
+./obj/generalInfo Results/Results.txt $((N1)) guided 8 4
+step=$((Nx))
+for i in {1..11}
+do 
+    
+    echo $step
+    ./obj/lab3 $step 8 4
+    #echo $i
+    step=$((step + delta))
+done
+
+
 
 step=$((Nx))
 echo "Test lab3_Kth shedule"

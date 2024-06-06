@@ -116,3 +116,28 @@ N=1500. Shedule:default, Chunksize: 1 Number of threads:6
 2058
 2117
 2502
+N=1500. Shedule:default, Chunksize: 1 Number of threads:1
+13
+878
+1773
+2520
+3456
+4269
+5825
+6735
+7215
+8078
+9285
+N=1500. Shedule:default, Chunksize: 1 Number of threads:2
+10
+641
+1829
+3294
+3198
+3860
+3982
+5794
+5829
+7544
+7594
+N=1500. Shedule:default, Chunksize: 1 Number of threads:4
