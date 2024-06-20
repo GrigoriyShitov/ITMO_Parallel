@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
 {
     int N, j;
     unsigned int seed;
-    struct timeval T1, T2;
+    struct timeval T1, T2, TstageS, TstageE;
     long delta_ms;
     N = atoi(argv[1]); // N равен первому параметру командной строки
     int threadCount = atoi(argv[2]);
@@ -75,18 +75,75 @@ int main(int argc, char *argv[])
         seed = percent * percent; // инициализировать начальное значение ГСЧ
         min = 10 * 360 + 1;
         // Заполнить массив исходных данных размером N
+        if (percent == 10)
+        {
+
+            gettimeofday(&TstageS, NULL);
+        }
         Generate(M1, M2, seed, N);
+        if (percent == 10)
+        {
+            gettimeofday(&TstageE, NULL);
+            delta_ms = (TstageE.tv_sec - TstageS.tv_sec) * 1000 +
+                       (TstageE.tv_usec - TstageS.tv_usec) / 1000;
+            printf("\nN=%d. GENERATE: %ld\n\n", N, delta_ms);
+        }
         // Решить поставленную задачу, заполнить массив с результатами
+        if (percent == 10)
+        {
+
+            gettimeofday(&TstageS, NULL);
+        }
         Map(M1, M2, M2temp, N, threadCount, chunkSize);
-
+        if (percent == 10)
+        {
+            gettimeofday(&TstageE, NULL);
+            delta_ms = (TstageE.tv_sec - TstageS.tv_sec) * 1000 +
+                       (TstageE.tv_usec - TstageS.tv_usec) / 1000;
+            printf("\nN=%d. MAP: %ld\n\n", N, delta_ms);
+        }
         // Merge
+        if (percent == 10)
+        {
+
+            gettimeofday(&TstageS, NULL);
+        }
         Merge(M1, M2, M2temp, N, threadCount, chunkSize);
-
+        if (percent == 10)
+        {
+            gettimeofday(&TstageE, NULL);
+            delta_ms = (TstageE.tv_sec - TstageS.tv_sec) * 1000 +
+                       (TstageE.tv_usec - TstageS.tv_usec) / 1000;
+            printf("\nN=%d. MERGE: %ld\n\n", N, delta_ms);
+        }
         // Отсортировать массив с результатами указанным методомared(M1, N)
-        sort(M2, chunkSize, N, threadCount, M2SIZE);
+        if (percent == 10)
+        {
 
+            gettimeofday(&TstageS, NULL);
+        }
+        sort(M2, chunkSize, N, threadCount, M2SIZE);
+        if (percent == 10)
+        {
+            gettimeofday(&TstageE, NULL);
+            delta_ms = (TstageE.tv_sec - TstageS.tv_sec) * 1000 +
+                       (TstageE.tv_usec - TstageS.tv_usec) / 1000;
+            printf("\nN=%d. SORT: %ld\n\n", N, delta_ms);
+        }
         // REDUCE
+        if (percent == 10)
+        {
+
+            gettimeofday(&TstageS, NULL);
+        }
         Reduce(M1, M2, M2temp, N, threadCount, chunkSize);
+        if (percent == 10)
+        {
+            gettimeofday(&TstageE, NULL);
+            delta_ms = (TstageE.tv_sec - TstageS.tv_sec) * 1000 +
+                       (TstageE.tv_usec - TstageS.tv_usec) / 1000;
+            printf("\nN=%d. REDUCE: %ld\n\n", N, delta_ms);
+        }
         // printf("X: %lf\n", sum);
     }
     free(M1);
@@ -116,7 +173,6 @@ void Generate(double *M1, double *M2, unsigned int seed, int N)
     for (j = 0; j < M2SIZE; j++)
     {
         M2[j] = 360 + rand_r(&seed) % (10 * 360 - 361);
-        
     }
 }
 
@@ -205,7 +261,6 @@ void *mapTask1(void *arg)
     for (int j = start; j < end; j++)
     {
         args->M1[j] = 1.0 / tanh(sqrt(args->M1[j]));
-        
     }
 
     return NULL;
