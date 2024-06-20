@@ -1,0 +1,12 @@
+N=1500. Shedule:pthread, Chunksize: 375 Number of threads:4
+80
+113
+146
+165
+204
+262
+309
+416
+443
+525
+639
